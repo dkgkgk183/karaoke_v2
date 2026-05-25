@@ -116,6 +116,7 @@ class _SessionDetailScreenState extends ConsumerState<SessionDetailScreen> {
     final performersAsync = ref.watch(performerViewModelProvider);
     final currentSession = sessions.firstWhere((s) => s.id == widget.session.id, orElse: () => widget.session);
     final showHighestNote = ref.watch(showHighestNoteProvider);
+    final useDifficulty = ref.watch(useDifficultyLabelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -185,7 +186,10 @@ class _SessionDetailScreenState extends ConsumerState<SessionDetailScreen> {
                           ),
                           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                             if (showHighestNote)
-                              Text(s.highestNote, style: TextStyle(color: _getNoteColor(s.highestNote), fontSize: 10, fontWeight: FontWeight.bold)),
+                              Text(
+                                useDifficulty ? (noteToDifficulty[s.highestNote] ?? s.highestNote) : s.highestNote,
+                                style: TextStyle(color: _getNoteColor(s.highestNote), fontSize: 10, fontWeight: FontWeight.bold),
+                              ),
                             Text('${s.machineBrand} ${s.songNumber}', style: TextStyle(color: _getBrandColor(s.machineBrand), fontSize: 9, fontWeight: FontWeight.bold)),
                           ]),
                         ]),
@@ -244,7 +248,10 @@ class _SessionDetailScreenState extends ConsumerState<SessionDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               if (showHighestNote)
-                                Text(song.highestNote, style: TextStyle(color: _getNoteColor(song.highestNote), fontSize: 11, fontWeight: FontWeight.bold)),
+                                Text(
+                                  useDifficulty ? (noteToDifficulty[song.highestNote] ?? song.highestNote) : song.highestNote,
+                                  style: TextStyle(color: _getNoteColor(song.highestNote), fontSize: 11, fontWeight: FontWeight.bold),
+                                ),
                               Text('${song.machineBrand} ${song.songNumber}', style: TextStyle(color: _getBrandColor(song.machineBrand), fontSize: 10, fontWeight: FontWeight.bold)),
                             ],
                           ),

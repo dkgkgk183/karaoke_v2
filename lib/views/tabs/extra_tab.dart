@@ -21,6 +21,13 @@ class _ExtraTabState extends ConsumerState<ExtraTab> {
   final List<String> _recentHistory = [];
   static const int _maxHistory = 10;
 
+  Color _getDifficultyColor(String difficulty) {
+    if (difficulty.contains('하')) return Colors.green;
+    if (difficulty.contains('중')) return Colors.blue;
+    if (difficulty.contains('상')) return Colors.red;
+    return Colors.black;
+  }
+
   LibrarySong? _weightedRandomPick(List<LibrarySong> songs) {
     final random = Random();
     final weights = songs.map((song) {
@@ -193,6 +200,13 @@ class _ExtraTabState extends ConsumerState<ExtraTab> {
                     value: showHighestNote,
                     onChanged: (_) => ref.read(showHighestNoteProvider.notifier).toggle(),
                   ),
+                  if (showHighestNote)
+                    CheckboxListTile(
+                      dense: true,
+                      title: const Text('난이도로 표시', style: TextStyle(fontSize: 13)),
+                      value: ref.watch(useDifficultyLabelProvider),
+                      onChanged: (_) => ref.read(useDifficultyLabelProvider.notifier).toggle(),
+                    ),
                   const Divider(height: 12),
 
                   // ── 백업 ─────────────────────────────────
@@ -319,6 +333,8 @@ class _ExtraTabState extends ConsumerState<ExtraTab> {
     final libraryAsync = ref.watch(libraryViewModelProvider);
     final recommendBrand = ref.watch(recommendBrandProvider);
     final isSyncing = ref.watch(syncLoadingProvider);
+    final showHighestNote = ref.watch(showHighestNoteProvider);
+    final useDifficulty = ref.watch(useDifficultyLabelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -412,8 +428,16 @@ class _ExtraTabState extends ConsumerState<ExtraTab> {
                           ),
                         ),
                         Text(
-                          _recommendedSong!.highestNote,
-                          style: const TextStyle(fontSize: 10, color: Colors.redAccent, fontWeight: FontWeight.bold),
+                          showHighestNote && useDifficulty
+                              ? (noteToDifficulty[_recommendedSong!.highestNote] ?? _recommendedSong!.highestNote)
+                              : _recommendedSong!.highestNote,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: showHighestNote && useDifficulty
+                                ? _getDifficultyColor(noteToDifficulty[_recommendedSong!.highestNote] ?? '')
+                                : Colors.redAccent,
+                          ),
                         ),
                       ],
                     ),

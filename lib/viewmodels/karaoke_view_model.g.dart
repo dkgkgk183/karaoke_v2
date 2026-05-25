@@ -147,7 +147,7 @@ class _SessionsBySongProviderElement
   String get songId => (origin as SessionsBySongProvider).songId;
 }
 
-String _$libraryViewModelHash() => r'0623a3d18feb601594d22e8610ea83754d869cec';
+String _$libraryViewModelHash() => r'3a708829b03e5003f8f6ce86244ef9a41a0bfd81';
 
 /// See also [LibraryViewModel].
 @ProviderFor(LibraryViewModel)
@@ -166,7 +166,7 @@ final libraryViewModelProvider =
     );
 
 typedef _$LibraryViewModel = AutoDisposeAsyncNotifier<List<LibrarySong>>;
-String _$sessionViewModelHash() => r'd633e8c0d5b6ce577f7a54790f82ef7b466967c7';
+String _$sessionViewModelHash() => r'e51fff8145fde7f08240e671938427f4d3b0c50e';
 
 /// See also [SessionViewModel].
 @ProviderFor(SessionViewModel)
@@ -183,7 +183,7 @@ final sessionViewModelProvider =
 
 typedef _$SessionViewModel = AutoDisposeAsyncNotifier<List<Session>>;
 String _$performerViewModelHash() =>
-    r'441f3769bacddcf08a577003364a0f3cfaf0a403';
+    r'727c7c0895ff929afac88155e1e41d2f649f032d';
 
 /// See also [PerformerViewModel].
 @ProviderFor(PerformerViewModel)
@@ -203,7 +203,7 @@ final performerViewModelProvider =
 
 typedef _$PerformerViewModel = AutoDisposeAsyncNotifier<List<Performer>>;
 String _$sessionDetailViewModelHash() =>
-    r'43ad668ae7081fc3d6a40ba78513d57ec6cb43b3';
+    r'92e2e23c3e0dc2d221a4fd90ade202854d1e13e7';
 
 abstract class _$SessionDetailViewModel
     extends BuildlessAutoDisposeAsyncNotifier<List<Map<String, dynamic>>> {
@@ -352,7 +352,7 @@ class _SessionDetailViewModelProviderElement
 }
 
 String _$dataManagementViewModelHash() =>
-    r'a1fc4806265965c608e79df943672db0a4b36927';
+    r'045bc1c89e3306cc29096641f88cd047b1ffb086';
 
 /// See also [DataManagementViewModel].
 @ProviderFor(DataManagementViewModel)

@@ -300,6 +300,7 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
     bool isDup = false;
     int searchType = 1;
     final showHighestNote = ref.read(showHighestNoteProvider);
+    final useDifficulty = ref.read(useDifficultyLabelProvider);
 
     showDialog(
       context: context,
@@ -409,10 +410,19 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
                   TextField(controller: nCtrl, onChanged: (_) => validate(), decoration: const InputDecoration(labelText: '번호', isDense: true)),
                   DropdownButtonFormField<String>(
                     value: noteVal,
-                    items: _notes.map((n) => DropdownMenuItem(value: n, child: Text(n, style: TextStyle(color: showHighestNote ? _getNoteColor(n) : Colors.grey)))).toList(),
+                    items: _notes.map((n) => DropdownMenuItem(
+                      value: n,
+                      child: Text(
+                        useDifficulty ? (noteToDifficulty[n] ?? n) : n,
+                        style: TextStyle(color: showHighestNote ? _getNoteColor(n) : Colors.grey),
+                      ),
+                    )).toList(),
                     onChanged: showHighestNote ? (v) { setST(() => noteVal = v!); validate(); } : null,
                     decoration: const InputDecoration(labelText: '최고음 영역', isDense: true),
-                    disabledHint: Text(noteVal, style: const TextStyle(color: Colors.grey)),
+                    disabledHint: Text(
+                      useDifficulty ? (noteToDifficulty[noteVal] ?? noteVal) : noteVal,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                   ),
                   if (!showHighestNote)
                     const Padding(
@@ -525,6 +535,7 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
     String bVal = song.machineBrand;
     String noteVal = _notes.contains(song.highestNote) ? song.highestNote : _notes[0];
     final showHighestNote = ref.read(showHighestNoteProvider);
+    final useDifficulty = ref.read(useDifficultyLabelProvider);
 
     showDialog(
       context: context,
@@ -540,10 +551,19 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
                 TextField(controller: nCtrl, decoration: const InputDecoration(labelText: '번호', isDense: true)),
                 DropdownButtonFormField<String>(
                   value: noteVal,
-                  items: _notes.map((n) => DropdownMenuItem(value: n, child: Text(n, style: TextStyle(color: showHighestNote ? _getNoteColor(n) : Colors.grey)))).toList(),
+                  items: _notes.map((n) => DropdownMenuItem(
+                    value: n,
+                    child: Text(
+                      useDifficulty ? (noteToDifficulty[n] ?? n) : n,
+                      style: TextStyle(color: showHighestNote ? _getNoteColor(n) : Colors.grey),
+                    ),
+                  )).toList(),
                   onChanged: showHighestNote ? (v) => setST(() => noteVal = v!) : null,
                   decoration: const InputDecoration(labelText: '최고음 영역', isDense: true),
-                  disabledHint: Text(noteVal, style: const TextStyle(color: Colors.grey)),
+                  disabledHint: Text(
+                    useDifficulty ? (noteToDifficulty[noteVal] ?? noteVal) : noteVal,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
                 ),
                 if (!showHighestNote)
                   const Padding(
@@ -591,6 +611,7 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
     final libraryAsync = ref.watch(libraryViewModelProvider);
     final isSortByNote = ref.watch(isSortByNoteProvider);
     final showHighestNote = ref.watch(showHighestNoteProvider);
+    final useDifficulty = ref.watch(useDifficultyLabelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -606,7 +627,7 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
               ),
               if (showHighestNote) ...[
                 const SizedBox(width: 4),
-                const Text('음역대로 분류', style: TextStyle(fontSize: 12)),
+                const Text('난이도로 분류', style: TextStyle(fontSize: 12)),
                 Checkbox(
                   visualDensity: VisualDensity.compact,
                   value: isSortByNote,
@@ -717,7 +738,10 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (showHighestNote)
-                                Text(song.highestNote, style: TextStyle(color: _getNoteColor(song.highestNote), fontWeight: FontWeight.bold, fontSize: 10)),
+                                Text(
+                                  useDifficulty ? (noteToDifficulty[song.highestNote] ?? song.highestNote) : song.highestNote,
+                                  style: TextStyle(color: _getNoteColor(song.highestNote), fontWeight: FontWeight.bold, fontSize: 10),
+                                ),
                               Text('${song.machineBrand} ${song.songNumber}', style: TextStyle(fontSize: 9, color: _getBrandColor(song.machineBrand), fontWeight: FontWeight.bold)),
                             ],
                           ),

@@ -66,3 +66,27 @@ class ShowHighestNote extends _$ShowHighestNote {
     prefs.setBool('showHighestNote', state);
   }
 }
+
+@Riverpod(keepAlive: true)
+class UseDifficultyLabel extends _$UseDifficultyLabel {
+  @override
+  bool build() => prefs.getBool('useDifficultyLabel') ?? false;
+  void toggle() {
+    state = !state;
+    prefs.setBool('useDifficultyLabel', state);
+  }
+}
+
+/// 최고음 → 난이도 매핑
+const Map<String, String> noteToDifficulty = {
+  '~2옥타브 솔#': '난이도 하',
+  '2옥타브 라~시': '난이도 중',
+  '3옥타브 도~': '난이도 상',
+};
+
+/// 난이도 → 최고음 매핑
+const Map<String, String> difficultyToNote = {
+  '난이도 하': '~2옥타브 솔#',
+  '난이도 중': '2옥타브 라~시',
+  '난이도 상': '3옥타브 도~',
+};

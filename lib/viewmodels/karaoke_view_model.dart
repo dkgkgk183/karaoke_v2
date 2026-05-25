@@ -106,9 +106,17 @@ class LibraryViewModel extends _$LibraryViewModel {
 
   Future<void> toggleHighlight(LibrarySong song) async {
     final newValue = !song.isHighlighted;
+    // 로컬 DB 업데이트
     await database.updateSongHighlight(song.id, newValue);
-    await SupabaseService.updateSongHighlight(song.id, newValue); // 클라우드 동기화
-    ref.invalidateSelf();
+    // 낙관적 UI 갱신: 전체 재조회 대신 메모리 상태만 변경
+    final songs = state.value;
+    if (songs != null) {
+      state = AsyncValue.data(
+        songs.map((s) => s.id == song.id ? s.copyWith(isHighlighted: newValue) : s).toList(),
+      );
+    }
+    // 클라우드 동기화는 비동기로 fire-and-forget
+    SupabaseService.updateSongHighlight(song.id, newValue);
   }
 }
 

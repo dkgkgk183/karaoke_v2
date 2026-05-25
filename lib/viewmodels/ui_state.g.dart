@@ -128,5 +128,22 @@ final showHighestNoteProvider =
     );
 
 typedef _$ShowHighestNote = Notifier<bool>;
+String _$useDifficultyLabelHash() =>
+    r'1b163b6d3d40ab337590f4ab3bcf4891a232245e';
+
+/// See also [UseDifficultyLabel].
+@ProviderFor(UseDifficultyLabel)
+final useDifficultyLabelProvider =
+    NotifierProvider<UseDifficultyLabel, bool>.internal(
+      UseDifficultyLabel.new,
+      name: r'useDifficultyLabelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$useDifficultyLabelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$UseDifficultyLabel = Notifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -791,15 +791,19 @@ class _AddSongTabState extends ConsumerState<AddSongTab> {
                   },
                 ),
               ),
+              Positioned(
+                right: 36,
+                bottom: 16,
+                child: FloatingActionButton(
+                  onPressed: _showAddDialog,
+                  child: const Icon(Icons.add),
+                ),
+              ),
             ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, s) => Center(child: Text('에러 발생: $e')),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddDialog,
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -33,7 +33,7 @@ class _ExtraTabState extends ConsumerState<ExtraTab> {
     final weights = songs.map((song) {
       final historyIndex = _recentHistory.indexOf(song.songNumber);
       if (historyIndex == -1) return 1.0;
-      final recency = (historyIndex + 1) / _recentHistory.length;
+      final recency = (_recentHistory.length - historyIndex) / _recentHistory.length;
       return recency * recency;
     }).toList();
     final totalWeight = weights.fold(0.0, (sum, w) => sum + w);
